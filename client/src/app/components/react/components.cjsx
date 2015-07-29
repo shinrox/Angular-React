@@ -2,6 +2,7 @@ ReactComponents = ReactComponents || {}
 ReactFactories = ReactFactories || {}
 ReactHelpers = ReactHelpers || {}
 
+{#ternary like comparison externalized}
 ReactHelpers.pluralize = (number)->
   return if number > 1 or number is 0 then 'ns' else 'm'
 
@@ -13,13 +14,17 @@ ReactComponents.ChildComponent = React.createClass {
         quantity: 0
       }
 
+    {# bound to onClick event and calls the fn passed on the attribute}
     handleUpdate: ->
-      @props.update()
+      @props.update?()
 
     render: ->
       <div className="child-component">
         <h2>Segundo Componente (Child)</h2>
-        <p>Array contém {@props.quantity} ite{ReactHelpers.pluralize(@props.quantity)}</p>
+        <p>
+          Array contém {@props.quantity}
+          ite{ReactHelpers.pluralize(@props.quantity)} {# can only to use ternary comparison externalized}
+        </p>
         <button onClick={@handleUpdate}>Change</button>
 
       </div>
@@ -31,26 +36,21 @@ ReactComponents.ParentComponent = React.createClass {
     getInitialState: ()->
       return {
         value: 0
-        action: 0
       }
 
-    getDefaultProps: ()->
-      return {
-        value: 0
-        action: 0
-      }
-
+    {#internal changed function that calls the property bound on external framework}
     changed: ->
       @props.changed?(@state)
       return
 
+    {#function that updates the internal state and calls @changed}
     updateValue: ->
       @state.value = Math.floor(Math.random()*(10-0+1))
       @setState(@state)
       @changed()
 
     propTypes:
-      changed: React.PropTypes.func.isRequired
+      changed: React.PropTypes.func
 
     render: ->
       <div className="parent-component">
@@ -60,11 +60,14 @@ ReactComponents.ParentComponent = React.createClass {
 
       </div>
 
+    {# called on React.render(Component(...))}
     componentWillReceiveProps: (props)->
       @setState(props)
 
   }
 
+
+{# wrap classes with factory to use as Function with React.render(Component(), element) https://gist.github.com/sebmarkbage/ae327f2eda03bf165261}
 ReactFactories.ParentComponent = React.createFactory(ReactComponents.ParentComponent)
 
 

@@ -10,8 +10,6 @@ describe '\nController: HomeController\n', ()->
   # =============================================
   beforeEach module('ui.router')
   beforeEach module('HolmesAngularReact.scripts')
-  beforeEach module('ngToast')
-  beforeEach module('pascalprecht.translate')
 
 
   # =============================================
