@@ -48,8 +48,7 @@ angular.module 'HolmesAngularReact', [
   'pascalprecht.translate'
   'oitozero.ngSweetAlert'
   'HolmesAngularReact.scripts'
-  'hQueue'
-  'hAnalytics'
+
   'ui.grid'
   'ui.grid.expandable'
   'ui.grid.treeView'
@@ -57,6 +56,6 @@ angular.module 'HolmesAngularReact', [
   'angular-loading-bar'
   'ng-context-menu'
   'react'
-  'objectToArray'
+
   'ng.shims.placeholder'
   ]
